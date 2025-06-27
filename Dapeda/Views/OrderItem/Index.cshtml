@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Dapeda.Models.OrderItem>
+
+@{
+    ViewBag.Title = "Sipariş Kalemleri";
+}
+
+<h2>Sipariş Kalemleri</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Yeni Sipariş Kalemi Ekle</a>
+</p>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>OrderItemId</th>
+            <th>OrderId</th>
+            <th>ProductId</th>
+            <th>Quantity</th>
+            <th>UnitPrice</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderItemId</td>
+                <td>@item.OrderId</td>
+                <td>@item.ProductId</td>
+                <td>@item.Quantity</td>
+                <td>@item.UnitPrice</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.OrderItemId })" class="btn btn-warning btn-sm">Düzenle</a>
+
+                    <form asp-action="Delete" asp-controller="OrderItem" asp-route-id="@item.OrderItemId" method="post" class="d-inline" onsubmit="return confirm('Silmek istediğinize emin misiniz?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

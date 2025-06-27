@@ -1,0 +1,39 @@
+﻿@model Dapeda.Models.Product
+
+<h2 class="mb-4 text-center">Ürün Düzenle</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ProductId) <!-- Gizli olarak ProductId gönderilir -->
+
+    <div class="d-flex justify-content-center">
+        <table class="table table-bordered" style="max-width: 600px;">
+            <tbody>
+                <tr>
+                    <th style="width: 30%;">@Html.LabelFor(m => m.ProductName)</th>
+                    <td>@Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })</td>
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(m => m.Price)</th>
+                    <td>@Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01" })</td>
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(m => m.Stock)</th>
+                    <td>@Html.TextBoxFor(m => m.Stock, new { @class = "form-control", type = "number" })</td>
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(m => m.CategoryId)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.Categories, "Kategori Seçiniz", new { @class = "form-select" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-end">
+                        <button type="submit" class="btn btn-success me-2">Güncelle</button>
+                        <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Vazgeç</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}

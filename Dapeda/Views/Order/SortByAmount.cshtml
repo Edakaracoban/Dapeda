@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Dapeda.Models.Order>
+
+@{
+    ViewData["Title"] = "Siparişleri Tutar'a Göre Sırala";
+}
+<h2 class="mb-4 d-flex justify-content-between align-items-center">
+    Siparişleri Tutar'a Göre Sırala
+    <div>
+        <a href="@Url.Action("Index")" class="btn btn-primary me-2">
+            <i class="bi bi-bar-chart-line"></i> Siparişlere Git
+        </a>
+
+        <div class="dropdown d-inline-block">
+            <button class="btn btn-success dropdown-toggle" type="button" id="reportsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bar-chart-line"></i> Raporlara Git
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="reportsDropdown">
+                <li><a class="dropdown-item" href="@Url.Action("OrdersByDate", "Order")">Tarih Aralığındaki Siparişler</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("SortByAmount", "Order")">Siparişleri Tutar'a Göre Sırala</a></li>
+
+            </ul>
+        </div>
+    </div>
+</h2>
+
+@using (Html.BeginForm("SortByAmount", "Order", FormMethod.Post))
+{
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <select id="sortDirection" name="sortDirection" class="form-select form-select-sm" style="width: auto;">
+            <option value="ASC">Artan Sıralama</option>
+            <option value="DESC">Azalan Sıralama</option>
+        </select>
+
+        <input type="submit" value="Sırala" class="btn btn-sm btn-danger" />
+    </div>
+}
+
+
+@if (Model != null && Model.Any())
+{
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Sipariş ID</th>
+                <th>Sipariş Tarihi</th>
+                <th>Tutar</th>
+                <th>Kullanıcı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate</td>
+                    <td>@order.TotalAmount</td>
+                    <td>@order.UserId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Gösterilecek sipariş yok.</p>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var sortDirection = '@ViewBag.CurrentSort';
+            var select = document.getElementById("sortDirection");
+            if (sortDirection) {
+                select.value = sortDirection;
+            }
+        });
+    </script>
+}

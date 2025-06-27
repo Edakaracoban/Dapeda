@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Dapeda.Models.Order>
+
+<h2 class="mb-4 d-flex justify-content-between align-items-center">
+    Tarihlere Göre Siparişler
+    <div>
+        <a href="@Url.Action("Index")" class="btn btn-primary me-2">
+            <i class="bi bi-bar-chart-line"></i> Siparişlere Git
+        </a>
+
+        <div class="dropdown d-inline-block">
+            <button class="btn btn-success dropdown-toggle" type="button" id="reportsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bar-chart-line"></i> Raporlara Git
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="reportsDropdown">
+                <li><a class="dropdown-item" href="@Url.Action("OrdersByDate", "Order")">Tarih Aralığındaki Siparişler</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("SortByAmount", "Order")">Siparişleri Tutar'a Göre Sırala</a></li>
+
+            </ul>
+        </div>
+    </div>
+</h2>
+@using (Html.BeginForm())
+{
+    <div class="row g-3 align-items-end mb-3">
+        <div class="col-md-4">
+            <label for="startDate" class="form-label">Başlangıç Tarihi</label>
+            <input type="date" id="startDate" name="startDate" class="form-control" required value="@ViewBag.StartDate" />
+        </div>
+        <div class="col-md-4">
+            <label for="endDate" class="form-label">Bitiş Tarihi</label>
+            <input type="date" id="endDate" name="endDate" class="form-control" required value="@ViewBag.EndDate" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="bi bi-search"></i> Listele
+            </button>
+        </div>
+    </div>
+}
+
+
+@if (Model != null)
+{
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Sipariş ID</th>
+                <th>Sipariş Tarihi</th>
+                <th>Tutar</th>
+                <th>Kullanıcı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>@o.OrderId</td>
+                    <td>@o.OrderDate</td>
+                    <td>@o.TotalAmount</td>
+                    <td>@o.UserId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

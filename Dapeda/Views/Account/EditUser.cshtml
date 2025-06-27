@@ -1,0 +1,61 @@
+﻿@model Dapeda.Models.User
+
+@{
+    ViewBag.Title = "Kullanıcıyı Düzenle";
+}
+
+<h2 class="mb-4 text-center">Kullanıcıyı Düzenle</h2>
+
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger text-center">
+        @ViewBag.Error
+    </div>
+}
+
+@if (ViewBag.Exception != null)
+{
+    <div class="alert alert-warning text-center">
+        Hata Detayı: @ViewBag.Exception
+    </div>
+}
+@using (Html.BeginForm("EditUser", "Account", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.UserId)
+    <div class="d-flex justify-content-center">
+        <table class="table table-bordered" style="max-width: 600px;">
+            <tbody>
+                <tr>
+                    <th>@Html.LabelFor(m => m.UserName)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(m => m.Email)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <!-- PasswordHash genellikle güncellenmez, burada gösterilmez veya farklı bir alanda parola güncelleme yapılır -->
+                <tr>
+                    <td colspan="2" class="text-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="bi bi-save"></i> Güncelle
+                        </button>
+                        <a href="@Url.Action("Index", "Account")" class="btn btn-secondary">İptal</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

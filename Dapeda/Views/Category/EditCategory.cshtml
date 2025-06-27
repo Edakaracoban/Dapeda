@@ -1,0 +1,34 @@
+﻿@model Dapeda.Models.Category
+
+<h2 class="mb-4 text-center">Kategori Düzenle</h2>
+
+@using (Html.BeginForm("EditCategory", "Category", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.CategoryId) <!-- Gizli olarak CategoryId gönderilir -->
+
+    <div class="d-flex justify-content-center">
+        <table class="table table-bordered" style="max-width: 600px;">
+            <tbody>
+                <tr>
+                    <th style="width: 30%;">@Html.LabelFor(m => m.CategoryName)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="bi bi-save"></i> Güncelle
+                        </button>
+                        <a href="@Url.Action("Index", "Category")" class="btn btn-secondary">İptal</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

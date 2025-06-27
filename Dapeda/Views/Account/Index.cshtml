@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Dapeda.Models.User>
+
+<h2>Kullanıcı Listesi</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+<form method="get" asp-controller="Account" asp-action="Index" class="row g-3 mb-4">
+    <div class="col-md-5">
+        <input type="text" name="email" class="form-control" placeholder="Email ile ara" value="@ViewBag.EmailFilter" />
+    </div>
+    <div class="col-md-5">
+        <input type="text" name="username" class="form-control" placeholder="Kullanıcı adı ile ara" value="@ViewBag.UsernameFilter" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Ara</button>
+    </div>
+</form>
+
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kullanıcı Adı</th>
+            <th>Email</th>
+            <th style="width:180px">İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    <div class="d-inline-flex gap-2">
+                        <a class="btn btn-sm btn-warning" href="@Url.Action("EditUser", "Account", new { id = user.UserId })">
+                            <i class="bi bi-pencil"></i> Düzenle
+                        </a>
+                        @using (Html.BeginForm("DeleteUser", "Account", FormMethod.Post, new { onsubmit = "return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');", @class = "d-inline" }))
+                        {
+                            @Html.Hidden("id", user.UserId)
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Sil
+                            </button>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

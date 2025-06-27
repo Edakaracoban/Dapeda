@@ -1,0 +1,53 @@
+﻿@model Dapeda.Models.Order
+
+@{
+    ViewBag.Title = "Siparişi Düzenle";
+}
+
+<h2 class="mb-4 text-center">Siparişi Düzenle</h2>
+
+@using (Html.BeginForm("EditOrder", "Order", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.OrderId)
+    <div class="d-flex justify-content-center">
+        <table class="table table-bordered" style="max-width: 600px;">
+            <tbody>
+                <tr>
+                    <th style="width: 30%;">@Html.LabelFor(m => m.UserId, "Kullanıcı")</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.UserId, (SelectList)ViewBag.Users, "-- Kullanıcı Seçin --", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(m => m.OrderDate)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.OrderDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(m => m.OrderDate, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(m => m.TotalAmount)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                        @Html.ValidationMessageFor(m => m.TotalAmount, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="bi bi-save"></i> Güncelle
+                        </button>
+                        <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">İptal</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

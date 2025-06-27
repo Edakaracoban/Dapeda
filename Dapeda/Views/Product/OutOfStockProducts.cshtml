@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Dapeda.Models.Product>
+<h2 class="mb-4 d-flex justify-content-between align-items-center">
+   Stoğu Biten Ürünler
+    <div>
+        <a href="@Url.Action("Index")" class="btn btn-info">
+            <i class="bi bi-bar-chart-line"></i> Ürünlere Git
+        </a>
+        <div class="dropdown d-inline-block">
+            <button class="btn btn-success dropdown-toggle" type="button" id="reportsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bar-chart-line"></i> Raporlara Git
+            </button>
+
+            <ul class="dropdown-menu" aria-labelledby="reportsDropdown">
+                <li><a class="dropdown-item" href="@Url.Action("ProductWithCategory", "Product")">Ürünler ve Kategorileri Listele</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("GetProductReport", "Product")">Toplam Stok ve Ortalama Fiyat Listele</a></li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("SortedProducts", "Product", new { sortBy = "price", sortDirection = "ASC" })">
+                        Fiyata Göre Artan
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("SortedProducts", "Product", new { sortBy = "price", sortDirection = "DESC" })">
+                        Fiyata Göre Azalan
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("SortedProducts", "Product", new { sortBy = "stock", sortDirection = "ASC" })">
+                        Stoka Göre Artan
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("SortedProducts", "Product", new { sortBy = "stock", sortDirection = "DESC" })">
+                        Stoka Göre Azalan
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("CategoryPriceReport", "Product")">
+                        Kategori Bazında Ürün Fiyat Raporu
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("ProductWithMinStock", "Product")">
+                        En Düşük Stoklu Ürün
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("ProductWithMaxStock", "Product")">
+                        En Yüksek Stoklu Ürün
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("ProductWithMaxPrice", "Product")">
+                        En Yüksek Fiyatlı Ürün
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("ProductWithMinPrice", "Product")">
+                        En Düşük Fiyatlı Ürün
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("ProductsBelowStock", "Product")">
+                        Belirli Stok Altındaki Ürünler
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="@Url.Action("OutOfStockProducts", "Product")">
+                        Stoğu Biten Ürünler
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</h2>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">Ürün Id</th>
+            <th scope="col">Ürün Adı</th>
+            <th scope="col">Fiyat</th>
+            <th scope="col">Stok</th>
+            <th scope="col">Kategori Id</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td>@item.Stock</td>
+                    <td>
+                        @item.CategoryId
+                    </td>
+                </tr>
+            }
+
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">Arama kriterlerine uygun ürün bulunamadı.</td>
+            </tr>
+        }
+    </tbody>
+</table>

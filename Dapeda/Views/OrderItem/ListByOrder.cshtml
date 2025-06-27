@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Dapeda.Models.OrderItem>
+
+@{
+    ViewBag.Title = "Sipariş ID: " + (ViewBag.OrderId ?? "Bilgi Yok") + " - Sipariş Kalemleri";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Bu siparişe ait sipariş kalemi bulunamadı.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sipariş Kalemi ID</th>
+                <th>Ürün ID</th>
+                <th>Adet</th>
+                <th>Birim Fiyat</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.OrderItemId</td>
+                    <td>@item.ProductId</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice.ToString("C")</td>
+                    <td>
+                        <a href="@Url.Action("Details", new { id = item.OrderItemId })" class="btn btn-info btn-sm">Detay</a>
+                        <a href="@Url.Action("Edit", new { id = item.OrderItemId })" class="btn btn-warning btn-sm">Düzenle</a>
+
+                        <form asp-action="Delete" asp-controller="OrderItem" method="post" style="display:inline" onsubmit="return confirm('Silmek istediğinize emin misiniz?');">
+                            <input type="hidden" name="id" value="@item.OrderItemId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<p>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Tüm Sipariş Kalemleri</a>
+</p>

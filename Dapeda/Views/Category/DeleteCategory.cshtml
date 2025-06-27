@@ -1,0 +1,22 @@
+﻿@model Dapeda.Models.Category
+
+<h2 class="mb-4 d-flex justify-content-between align-items-center">
+    Kategori Sil
+    <a href="@Url.Action("Index", "Category")" class="btn btn-info">
+        <i class="bi bi-arrow-left"></i> Geri Dön
+    </a>
+</h2>
+
+<div class="alert alert-danger" style="max-width: 400px;">
+    <h5><i class="bi bi-exclamation-triangle-fill me-2"></i> Uyarı!</h5>
+    <p>“<strong>@Model.CategoryName</strong>” kategorisini silmek istediğinize emin misiniz?</p>
+    <p>Bu işlem geri alınamaz!</p>
+</div>
+
+<form asp-action="DeleteCategoryConfirmed" method="post">
+    <input type="hidden" asp-for="CategoryId" />
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Evet, Sil
+    </button>
+    <a href="@Url.Action("Index", "Category")" class="btn btn-secondary ms-2">İptal</a>
+</form>
